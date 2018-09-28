@@ -1,0 +1,11 @@
+nohup: ignoring input
+2018-09-26 10:31:33.245902: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-09-26 10:31:33.467159: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.6325
+pciBusID: 0000:04:00.0
+totalMemory: 10.91GiB freeMemory: 10.75GiB
+2018-09-26 10:31:33.467212: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0
+2018-09-26 10:31:33.785728: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-09-26 10:31:33.785796: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 
+2018-09-26 10:31:33.785806: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N 
+2018-09-26 10:31:33.786079: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10403 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:04:00.0, compute capability: 6.1)

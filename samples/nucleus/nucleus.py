@@ -43,6 +43,9 @@ import numpy as np
 import skimage.io
 from imgaug import augmenters as iaa
 
+#select GPU
+os.environ["CUDA_VISIBLE_DEVICES"]='0'
+
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")
 
@@ -206,6 +209,7 @@ class NucleusDataset(utils.Dataset):
             image_ids = VAL_IMAGE_IDS
         else:
             # Get image ids from directory names
+            print(dataset_dir)
             image_ids = next(os.walk(dataset_dir))[1]
             if subset == "train":
                 image_ids = list(set(image_ids) - set(VAL_IMAGE_IDS))
@@ -293,7 +297,14 @@ def train(model, dataset_dir, subset):
                 epochs=40,
                 augmentation=augmentation,
                 layers='all')
-
+    
+    print("Train all layers")
+    model.train(dataset_train, dataset_val,
+                learning_rate=config.LEARNING_RATE*0.5,
+                epochs=80,
+                augmentation=augmentation,
+                layers='all')
+    
 
 ############################################################
 #  RLE Encoding
@@ -427,7 +438,19 @@ if __name__ == '__main__':
     parser.add_argument('--subset', required=False,
                         metavar="Dataset sub-directory",
                         help="Subset of dataset to run prediction on")
+    parser.add_argument('--backbone', required=False,
+                        default='resnet50',
+                        metavar="<backbone>",
+                        help="Feature Pyramid Network backbone type")
+    parser.add_argument('--train_bn', required=False,
+                        default=False,
+                        metavar="<Ture|False>",
+                        help="Train batch norm layers (default=False)",
+                        type=bool)
     args = parser.parse_args()
+    
+    
+    
 
     # Validate arguments
     if args.command == "train":
@@ -440,12 +463,28 @@ if __name__ == '__main__':
     if args.subset:
         print("Subset: ", args.subset)
     print("Logs: ", args.logs)
-
+    print("Command: ", args.command)
+    print("Backbone: ", args.backbone)
+    print("Train Batch Norm:", args.train_bn)
+    
     # Configurations
     if args.command == "train":
         config = NucleusConfig()
     else:
         config = NucleusInferenceConfig()
+        
+        
+    if args.backbone.lower()=='resnet50':
+        config.BACKBONE = 'resnet50'
+    elif args.backbone.lower() == 'mobilenet224v1':
+        config.BACKBONE = 'mobilenet224v1'
+        
+    if args.train_bn:
+        config.TRAIN_BN = True
+    #add by wzy
+    config.LEARNING_RATE = 0.001
+    
+    
     config.display()
 
     # Create model

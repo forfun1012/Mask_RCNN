@@ -14,8 +14,11 @@ The `nucleus.py` file contains the main parts of the code, and the two Jupyter n
 
 ## Command line Usage
 Train a new model starting from ImageNet weights using `train` dataset (which is `stage1_train` minus validation set)
+
+With --backbone arguement, we can change the used backbones for mask rcnn. Now we support mobilenet224v1, resnet50, resnet101
+FYI: when use mobilenet224v1 as backbone, we need to add --train_bn=true too
 ```
-python3 nucleus.py train --dataset=/path/to/dataset --subset=train --weights=imagenet
+python3 nucleus.py train --dataset=/path/to/dataset --subset=train --weights=imagenet --backbone=mobilenet224v1 --train_bn=true
 ```
 
 Train a new model starting from specific weights file using the full `stage1_train` dataset
